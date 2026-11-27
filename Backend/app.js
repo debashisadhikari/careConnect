@@ -4,14 +4,17 @@ const dotenv=require("dotenv");
 const mongoose=require("mongoose");
 const app=express();
 const session = require("express-session");
-
 const MongoStore = require("connect-mongo").default;
-
-
-
-
-
-
+//local files
+const  {signupRoute}=require("./routes/auth/registerRoute");
+const {loginRoute}=require("./routes/auth/loginRoute");
+const {logoutRoute}=require("./routes/auth/logoutRoute");
+const {sessionRoute}=require("./routes/session/sessionRoute");
+const {addTestRoute}=require("./routes/other/addTest");
+const {hospitalRoute}=require("./routes/other/addHospital");
+const {doctorRoute}=require("./routes/other/doctor")
+const {bookRoute}=require("./routes/other/book")
+const {countRoute}=require("./routes/other/count")
 
 dotenv.config();
 app.use(cors({
@@ -41,23 +44,21 @@ app.use(
     }
   })
 )
-
-
 app.get("/", (req, res) => {
     res.json({
         success: true,
         message: "The server is running"
     });
 });
-
-
-
-
-
-
-
-
-
+app.use(signupRoute);
+app.use(loginRoute);
+app.use(logoutRoute);
+app.use(sessionRoute);
+app.use(addTestRoute);
+app.use(hospitalRoute);
+app.use(doctorRoute);
+app.use(bookRoute);
+app.use(countRoute);
 
 const PORT=process.env.PORT;
 mongoose.connect(process.env.MONGO_URI)
